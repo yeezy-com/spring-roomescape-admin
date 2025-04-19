@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import roomescape.dto.ReservationRequestDto;
-import roomescape.dto.ReservationResponseDto;
+import roomescape.dto.ReservationRequest;
+import roomescape.dto.ReservationResponse;
 import roomescape.model.Reservation;
 import roomescape.model.ReservationDateTime;
 import roomescape.model.Reservations;
@@ -26,10 +26,10 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<List<ReservationResponseDto>> reservations() {
+    public ResponseEntity<List<ReservationResponse>> reservations() {
         Map<Long, Reservation> reservations = this.reservations.getReservations();
-        List<ReservationResponseDto> response = reservations.entrySet().stream()
-                .map(entry -> new ReservationResponseDto(
+        List<ReservationResponse> response = reservations.entrySet().stream()
+                .map(entry -> new ReservationResponse(
                         entry.getKey(),
                         entry.getValue().getName(),
                         entry.getValue().getDate(),
@@ -41,7 +41,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations")
-    public ResponseEntity<ReservationResponseDto> addReservation(@RequestBody final ReservationRequestDto requestDto) {
+    public ResponseEntity<ReservationResponse> addReservation(@RequestBody final ReservationRequest requestDto) {
         try {
             ReservationDateTime reservationDateTime = new ReservationDateTime(
                     LocalDateTime.of(requestDto.date(), requestDto.time())
@@ -51,7 +51,7 @@ public class ReservationController {
             Reservation findReservation = reservations.findById(id);
 
             return ResponseEntity.ok(
-                    new ReservationResponseDto(
+                    new ReservationResponse(
                             id,
                             findReservation.getName(),
                             findReservation.getDate(),
