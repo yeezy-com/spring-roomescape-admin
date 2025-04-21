@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,17 @@ import roomescape.model.ReservationRepository;
 public class H2ReservationRepository implements ReservationRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<Reservation> rowMapper = (resultSet, rowNum) -> {
+        LocalDate reservationDate = resultSet.getDate("date").toLocalDate();
+        LocalTime reservationTime = resultSet.getTime("time").toLocalTime();
+
+        return new Reservation(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                new ReservationDateTime(LocalDateTime.of(reservationDate, reservationTime))
+        );
+    };
 
     public H2ReservationRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -46,7 +58,8 @@ public class H2ReservationRepository implements ReservationRepository {
 
     @Override
     public Reservation findById(final Long id) {
-        return null;
+        String sql = "SELECT * FROM reservation WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 
     @Override
@@ -59,15 +72,6 @@ public class H2ReservationRepository implements ReservationRepository {
     public List<Reservation> findAll() {
         String sql = "SELECT * FROM reservation";
 
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
-            LocalDate reservationDate = resultSet.getDate("date").toLocalDate();
-            LocalTime reservationTime = resultSet.getTime("time").toLocalTime();
-
-            return new Reservation(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    new ReservationDateTime(LocalDateTime.of(reservationDate, reservationTime))
-            );
-        });
+        return jdbcTemplate.query(sql, rowMapper);
     }
 }
