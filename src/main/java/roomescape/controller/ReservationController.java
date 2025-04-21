@@ -2,7 +2,6 @@ package roomescape.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import roomescape.dao.ReservationDao;
 import roomescape.dto.ReservationRequest;
 import roomescape.dto.ReservationResponse;
 import roomescape.model.Reservation;
@@ -20,22 +20,16 @@ import roomescape.model.Reservations;
 public class ReservationController {
 
     private final Reservations reservations;
+    private final ReservationDao reservationDao;
 
-    public ReservationController(final Reservations reservations) {
+    public ReservationController(Reservations reservations, ReservationDao reservationDao) {
         this.reservations = reservations;
+        this.reservationDao = reservationDao;
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<List<ReservationResponse>> reservations() {
-        Map<Long, Reservation> reservations = this.reservations.getReservations();
-        List<ReservationResponse> response = reservations.entrySet().stream()
-                .map(entry -> new ReservationResponse(
-                        entry.getKey(),
-                        entry.getValue().getName(),
-                        entry.getValue().getDate(),
-                        entry.getValue().getTime())
-                )
-                .toList();
+    public ResponseEntity<List<ReservationResponse>> readReservations() {
+        List<ReservationResponse> response = reservationDao.findAll();
 
         return ResponseEntity.ok(response);
     }
