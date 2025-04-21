@@ -1,4 +1,4 @@
-package roomescape.entity.reservation;
+package roomescape.infrastructure.reservation;
 
 import java.util.HashMap;
 import java.util.List;
