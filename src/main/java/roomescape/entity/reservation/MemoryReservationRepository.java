@@ -1,18 +1,21 @@
-package roomescape.model;
+package roomescape.entity.reservation;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import roomescape.model.Reservation;
+import roomescape.model.ReservationRepository;
 
-@Component
-public class Reservations {
+@Repository
+public class MemoryReservationRepository implements ReservationRepository {
 
     private static final AtomicLong ID_GENERATOR = new AtomicLong(1);
 
     private final Map<Long, Reservation> reservations = new HashMap<>();
 
+    @Override
     public Long add(final Reservation reservation) {
         Long id = ID_GENERATOR.getAndIncrement();
 
@@ -20,11 +23,13 @@ public class Reservations {
         return id;
     }
 
-    public void removeById(final Long id) {
+    @Override
+    public void deleteById(final Long id) {
         Reservation reservation = findById(id);
         reservations.remove(id, reservation);
     }
 
+    @Override
     public Reservation findById(final Long id) {
         if (reservations.containsKey(id)) {
             return reservations.get(id);
@@ -33,7 +38,9 @@ public class Reservations {
         throw new IllegalArgumentException("[ERROR] 찾으려는 id 값이 없습니다.");
     }
 
-    public Map<Long, Reservation> getReservations() {
-        return Collections.unmodifiableMap(reservations);
+    @Override
+    public List<Reservation> findAll() {
+        return reservations.values().stream()
+                .toList();
     }
 }
