@@ -37,6 +37,17 @@ public class H2ReservationRepository implements ReservationRepository {
 
     @Override
     public List<Reservation> findAll() {
-        return null;
+        String sql = "SELECT * FROM reservation";
+
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
+            LocalDate reservationDate = resultSet.getDate("date").toLocalDate();
+            LocalTime reservationTime = resultSet.getTime("time").toLocalTime();
+
+            return new Reservation(
+                    resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    new ReservationDateTime(LocalDateTime.of(reservationDate, reservationTime))
+            );
+        });
     }
 }
