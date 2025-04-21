@@ -1,11 +1,16 @@
 package roomescape.entity.reservation;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import roomescape.model.Reservation;
 import roomescape.model.ReservationDateTime;
@@ -23,7 +28,20 @@ public class H2ReservationRepository implements ReservationRepository {
 
     @Override
     public Long add(final Reservation reservation) {
-        return null;
+        String sql = "INSERT INTO reservation (name, date, time) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, new String[]{"id"});
+
+            preparedStatement.setString(1, reservation.getName());
+            preparedStatement.setDate(2, Date.valueOf(reservation.getDate()));
+            preparedStatement.setTime(3, Time.valueOf(reservation.getTime()));
+
+            return preparedStatement;
+        }, keyHolder);
+
+        return keyHolder.getKey().longValue();
     }
 
     @Override
@@ -33,6 +51,8 @@ public class H2ReservationRepository implements ReservationRepository {
 
     @Override
     public void deleteById(final Long id) {
+        String sql = "DELETE FROM reservation WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
