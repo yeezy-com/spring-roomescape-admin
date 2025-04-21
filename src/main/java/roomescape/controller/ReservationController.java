@@ -65,7 +65,7 @@ public class ReservationController {
         try {
             reservations.deleteById(id);
             return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
