@@ -25,8 +25,14 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<List<Reservation>> readReservations() {
-        List<Reservation> response = reservations.findAll();
+    public ResponseEntity<List<ReservationResponse>> readReservations() {
+        List<ReservationResponse> response = reservations.findAll().stream()
+                .map(reservation -> new ReservationResponse(
+                        reservation.getId(),
+                        reservation.getName(),
+                        reservation.getDate(),
+                        reservation.getTime()))
+                .toList();
 
         return ResponseEntity.ok(response);
     }
