@@ -3,10 +3,10 @@ package roomescape.domain.time;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Time {
+public class ReservationTime {
     private final LocalTime startAt;
 
-    public Time(final LocalTime startAt) {
+    public ReservationTime(final LocalTime startAt) {
         this.startAt = Objects.requireNonNull(startAt);
     }
 

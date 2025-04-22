@@ -1,0 +1,12 @@
+package roomescape.domain.time;
+
+import java.util.List;
+
+public interface ReservationTimeRepository {
+
+    Long add(final ReservationTime reservationTime);
+
+    void deleteById(final Long id);
+
+    List<ReservationTime> findAll();
+}
