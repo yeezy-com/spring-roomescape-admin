@@ -1,12 +1,12 @@
-package roomescape.domain;
+package roomescape.reservation.domain;
 
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import roomescape.domain.reservation.Reservation;
-import roomescape.domain.reservation.ReservationDateTime;
+import roomescape.reservation.domain.Reservation;
+import roomescape.reservation.domain.ReservationDateTime;
 
 class ReservationTest {
 
