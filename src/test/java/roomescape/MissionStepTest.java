@@ -172,4 +172,26 @@ public class MissionStepTest {
                 .statusCode(200);
     }
 
+    @DisplayName("예약을 추가하고 목록을 읽을 수 있다.")
+    @Test
+    void reservation_add_and_get() {
+        Map<String, Object> reservation = new HashMap<>();
+        reservation.put("name", "브라운");
+        reservation.put("date", "2023-08-05");
+        reservation.put("timeId", 1);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(reservation)
+                .when().post("/reservations")
+                .then().log().all()
+                .statusCode(200);
+
+
+        RestAssured.given().log().all()
+                .when().get("/reservations")
+                .then().log().all()
+                .statusCode(200)
+                .body("size()", is(1));
+    }
 }
