@@ -46,7 +46,7 @@ public class MissionStepTest {
                 .when().get("/reservations")
                 .then().log().all()
                 .statusCode(200)
-                .body("size()", is(0)); // 아직 생성 요청이 없으니 Controller에서 임의로 넣어준 Reservation 갯수 만큼 검증하거나 0개임을 확인하세요.
+                .body("size()", is(0));
     }
 
     @DisplayName("예약을 추가하고, 삭제할 수 있다.")
@@ -147,8 +147,9 @@ public class MissionStepTest {
         assertThat(countAfterDelete).isEqualTo(0);
     }
 
+    @DisplayName("예약 시간을 조회하고 추가 및 삭제할 수 있다.")
     @Test
-    void time_manage() {
+    void reservation_time_can_manage() {
         Map<String, String> params = new HashMap<>();
         params.put("startAt", "10:00");
 
