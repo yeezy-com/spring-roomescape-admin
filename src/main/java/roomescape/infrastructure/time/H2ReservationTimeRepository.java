@@ -36,7 +36,16 @@ public class H2ReservationTimeRepository implements ReservationTimeRepository {
 
     @Override
     public void deleteById(final Long id) {
+        String sql = "DELETE FROM reservation_time WHERE id = ?";
+        int deleteCount = jdbcTemplate.update(sql, id);
 
+        validateIsExistsReservationTimeId(deleteCount);
+    }
+
+    private void validateIsExistsReservationTimeId(int deleteCount) {
+        if (deleteCount == 0) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약 시간입니다.");
+        }
     }
 
     @Override
