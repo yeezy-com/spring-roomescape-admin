@@ -11,13 +11,12 @@ import roomescape.reservation.domain.ReservationRepository;
 @Repository
 public class MemoryReservationRepository implements ReservationRepository {
 
-    private static final AtomicLong ID_GENERATOR = new AtomicLong(1);
-
     private final Map<Long, Reservation> reservations = new HashMap<>();
+    private final AtomicLong id_generator = new AtomicLong(1);
 
     @Override
     public Long add(final Reservation reservation) {
-        Long id = ID_GENERATOR.getAndIncrement();
+        Long id = id_generator.getAndIncrement();
 
         reservations.put(id, reservation);
         return id;
