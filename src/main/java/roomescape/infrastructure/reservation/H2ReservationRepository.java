@@ -13,9 +13,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import roomescape.model.Reservation;
-import roomescape.model.ReservationDateTime;
-import roomescape.model.ReservationRepository;
+import roomescape.domain.reservation.Reservation;
+import roomescape.domain.reservation.ReservationDateTime;
+import roomescape.domain.reservation.ReservationRepository;
 
 @Repository
 @Primary
