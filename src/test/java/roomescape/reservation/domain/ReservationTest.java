@@ -1,12 +1,11 @@
 package roomescape.reservation.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import roomescape.reservation.domain.Reservation;
-import roomescape.reservation.domain.ReservationDateTime;
 
 class ReservationTest {
 
@@ -14,7 +13,11 @@ class ReservationTest {
     @ParameterizedTest
     @NullAndEmptySource
     void reservation_name_is_not_blank(final String name) {
-        Assertions.assertThatThrownBy(() -> new Reservation(null, name,
-                new ReservationDateTime(LocalDateTime.of(2020, 10, 1, 13, 0))));
+        Assertions.assertThatThrownBy(() -> new Reservation(
+                null,
+                name,
+                LocalDate.of(2020, 10, 1),
+                LocalTime.of(13, 0))
+        );
     }
 }

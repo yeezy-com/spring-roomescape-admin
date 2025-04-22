@@ -14,7 +14,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import roomescape.reservation.domain.Reservation;
-import roomescape.reservation.domain.ReservationDateTime;
 import roomescape.reservation.domain.ReservationRepository;
 
 @Repository
@@ -23,16 +22,12 @@ public class H2ReservationRepository implements ReservationRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Reservation> rowMapper = (resultSet, rowNum) -> {
-        LocalDate reservationDate = resultSet.getDate("date").toLocalDate();
-        LocalTime reservationTime = resultSet.getTime("time").toLocalTime();
-
-        return new Reservation(
+    private final RowMapper<Reservation> rowMapper = (resultSet, rowNum) -> new Reservation(
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
-                new ReservationDateTime(LocalDateTime.of(reservationDate, reservationTime))
-        );
-    };
+                resultSet.getDate("date").toLocalDate(),
+                resultSet.getTime("time").toLocalTime()
+    );
 
     public H2ReservationRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

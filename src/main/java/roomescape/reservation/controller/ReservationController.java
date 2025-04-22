@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.dto.ReservationResponse;
 import roomescape.reservation.domain.Reservation;
-import roomescape.reservation.domain.ReservationDateTime;
 import roomescape.reservation.domain.ReservationRepository;
 
 @RestController
@@ -40,11 +39,7 @@ public class ReservationController {
     @PostMapping("/reservations")
     public ResponseEntity<ReservationResponse> addReservation(@RequestBody final ReservationRequest requestDto) {
         try {
-            ReservationDateTime reservationDateTime = new ReservationDateTime(
-                    LocalDateTime.of(requestDto.date(), requestDto.time())
-            );
-
-            Long id = reservations.add(new Reservation(null, requestDto.name(), reservationDateTime));
+            Long id = reservations.add(new Reservation(null, requestDto.name(), requestDto.date(), requestDto.time()));
             Reservation findReservation = reservations.findById(id);
 
             return ResponseEntity.ok(

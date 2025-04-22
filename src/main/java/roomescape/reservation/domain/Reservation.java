@@ -7,12 +7,14 @@ public class Reservation {
 
     private final Long id;
     private final String name;
-    private final ReservationDateTime reservationDateTime;
+    private final LocalDate date;
+    private final LocalTime time;
 
-    public Reservation(Long id, String name, ReservationDateTime reservationDateTime) {
+    public Reservation(final Long id, final String name, final LocalDate date, final LocalTime time) {
         this.id = id;
         this.name = validateNonBlank(name);
-        this.reservationDateTime = reservationDateTime;
+        this.date = date;
+        this.time = time;
     }
 
     private String validateNonBlank(final String name) {
@@ -30,10 +32,10 @@ public class Reservation {
     }
 
     public LocalDate getDate() {
-        return reservationDateTime.getDate();
+        return date;
     }
 
     public LocalTime getTime() {
-        return reservationDateTime.getTime();
+        return time;
     }
 }
