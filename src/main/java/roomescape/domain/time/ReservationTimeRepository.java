@@ -9,4 +9,6 @@ public interface ReservationTimeRepository {
     void deleteById(final Long id);
 
     List<ReservationTime> findAll();
+
+    ReservationTime findById(Long id);
 }

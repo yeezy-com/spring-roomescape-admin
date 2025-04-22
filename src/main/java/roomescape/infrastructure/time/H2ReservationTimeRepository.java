@@ -42,10 +42,18 @@ public class H2ReservationTimeRepository implements ReservationTimeRepository {
         validateIsExistsReservationTimeId(deleteCount);
     }
 
-    private void validateIsExistsReservationTimeId(int deleteCount) {
+    private void validateIsExistsReservationTimeId(final int deleteCount) {
         if (deleteCount == 0) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약 시간입니다.");
         }
+    }
+
+    @Override
+    public ReservationTime findById(final Long id) {
+        String sql = "SELECT * FROM reservation_time WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new ReservationTime(
+                resultSet.getTime("startAt").toLocalTime()
+        ), id);
     }
 
     @Override

@@ -8,18 +8,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import roomescape.domain.time.ReservationTime;
+import roomescape.domain.time.ReservationTimeRepository;
 
 @RestController
 public class ReservationTimeController {
 
+    private final ReservationTimeRepository reservationTimeRepository;
+
+    public ReservationTimeController(ReservationTimeRepository reservationTimeRepository) {
+        this.reservationTimeRepository = reservationTimeRepository;
+    }
+
     @PostMapping("/times")
     public ResponseEntity<ReservationTime> addTime(@RequestBody ReservationTime reservationTime) {
-        return ResponseEntity.ok().build();
+        Long id = reservationTimeRepository.add(reservationTime);
+        ReservationTime findReservationTime = reservationTimeRepository.findById(id);
+
+        return ResponseEntity.ok(findReservationTime);
     }
 
     @GetMapping("/times")
     public ResponseEntity<List<ReservationTime>> getTimes() {
-        return ResponseEntity.ok()
-                .body(List.of(new ReservationTime(LocalTime.now())));
+        List<ReservationTime> reservations = reservationTimeRepository.findAll();
+
+        return ResponseEntity.ok(reservations);
     }
 }
