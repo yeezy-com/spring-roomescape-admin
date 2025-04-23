@@ -30,11 +30,7 @@ public class ReservationController {
     @GetMapping("/reservations")
     public ResponseEntity<List<ReservationResponse>> readReservations() {
         List<ReservationResponse> response = reservationRepository.findAll().stream()
-                .map(reservation -> new ReservationResponse(
-                        reservation.getId(),
-                        reservation.getName(),
-                        reservation.getDate(),
-                        reservation.getTime()))
+                .map(ReservationResponse::toDto)
                 .toList();
 
         return ResponseEntity.ok(response);
@@ -48,14 +44,7 @@ public class ReservationController {
             Long id = reservationRepository.add(new Reservation(null, requestDto.name(), requestDto.date(), time));
             Reservation findReservation = reservationRepository.findById(id);
 
-            return ResponseEntity.ok(
-                    new ReservationResponse(
-                            id,
-                            findReservation.getName(),
-                            findReservation.getDate(),
-                            findReservation.getTime()
-                    )
-            );
+            return ResponseEntity.ok(ReservationResponse.toDto(findReservation));
         } catch (NullPointerException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
