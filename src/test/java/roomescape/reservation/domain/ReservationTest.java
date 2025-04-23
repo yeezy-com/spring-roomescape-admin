@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
+import roomescape.time.domain.ReservationTime;
 
 class ReservationTest {
 
@@ -17,7 +18,7 @@ class ReservationTest {
                 null,
                 name,
                 LocalDate.of(2020, 10, 1),
-                LocalTime.of(13, 0))
+                new ReservationTime(null, LocalTime.of(13, 0)))
         );
     }
 }
