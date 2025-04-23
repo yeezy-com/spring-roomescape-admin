@@ -45,7 +45,7 @@ public class ReservationController {
             Reservation findReservation = reservationRepository.findById(id);
 
             return ResponseEntity.ok(ReservationResponse.toDto(findReservation));
-        } catch (NullPointerException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
