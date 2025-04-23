@@ -1,4 +1,4 @@
-package roomescape.time.controller;
+package roomescape.time.presentation;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
