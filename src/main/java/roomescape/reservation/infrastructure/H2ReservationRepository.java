@@ -17,17 +17,18 @@ import roomescape.time.domain.ReservationTime;
 @Primary
 public class H2ReservationRepository implements ReservationRepository {
 
-    private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Reservation> rowMapper = (resultSet, rowNum) -> new Reservation(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getDate("date").toLocalDate(),
-                new ReservationTime(
-                        resultSet.getLong("time_id"),
-                        resultSet.getTime("start_at").toLocalTime()
-                )
+    private static final RowMapper<Reservation> ROW_MAPPER = (resultSet, rowNum) -> new Reservation(
+            resultSet.getLong("id"),
+            resultSet.getString("name"),
+            resultSet.getDate("date").toLocalDate(),
+            new ReservationTime(
+                    resultSet.getLong("time_id"),
+                    resultSet.getTime("start_at").toLocalTime()
+            )
     );
+
+    private final JdbcTemplate jdbcTemplate;
 
     public H2ReservationRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -65,7 +66,7 @@ public class H2ReservationRepository implements ReservationRepository {
                 ON r.time_id = t.id
                 WHERE r.id = ?
                 """;
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        return jdbcTemplate.queryForObject(sql, ROW_MAPPER, id);
     }
 
     @Override
@@ -96,6 +97,6 @@ public class H2ReservationRepository implements ReservationRepository {
                 ON r.time_id = t.id
                 """;
 
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 }
