@@ -27,12 +27,12 @@ public class ReservationService {
         Long id = reservationRepository.add(new Reservation(null, request.name(), request.date(), time));
         Reservation findReservation = reservationRepository.findById(id);
 
-        return ReservationResponse.toDto(findReservation);
+        return ReservationResponse.from(findReservation);
     }
 
     public List<ReservationResponse> findAll() {
         return reservationRepository.findAll().stream()
-                .map(ReservationResponse::toDto)
+                .map(ReservationResponse::from)
                 .toList();
     }
 

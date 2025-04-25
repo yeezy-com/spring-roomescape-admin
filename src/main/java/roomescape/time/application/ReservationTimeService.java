@@ -20,7 +20,7 @@ public class ReservationTimeService {
         Long id = reservationTimeRepository.add(new ReservationTime(null, request.startAt()));
         ReservationTime findReservationTime = reservationTimeRepository.findById(id);
 
-        return ReservationTimeResponse.toDto(findReservationTime);
+        return ReservationTimeResponse.from(findReservationTime);
     }
 
     public void delete(final Long id) {
@@ -29,7 +29,7 @@ public class ReservationTimeService {
 
     public List<ReservationTimeResponse> findAll() {
         return reservationTimeRepository.findAll().stream()
-                .map(ReservationTimeResponse::toDto)
+                .map(ReservationTimeResponse::from)
                 .toList();
     }
 }
