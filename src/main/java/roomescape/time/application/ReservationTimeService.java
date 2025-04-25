@@ -24,7 +24,14 @@ public class ReservationTimeService {
     }
 
     public void delete(final Long id) {
-        reservationTimeRepository.deleteById(id);
+        int count = reservationTimeRepository.deleteById(id);
+        validateIsExistsReservationTimeId(count);
+    }
+
+    private void validateIsExistsReservationTimeId(final int count) {
+        if (count == 0) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약 시간입니다.");
+        }
     }
 
     public List<ReservationTimeResponse> findAll() {

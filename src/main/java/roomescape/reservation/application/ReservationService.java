@@ -37,6 +37,13 @@ public class ReservationService {
     }
 
     public void delete(final Long id) {
-        reservationRepository.deleteById(id);
+        int count = reservationRepository.deleteById(id);
+        validateExistIdToDelete(count);
+    }
+
+    private void validateExistIdToDelete(int count) {
+        if (count == 0) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 예약입니다.");
+        }
     }
 }

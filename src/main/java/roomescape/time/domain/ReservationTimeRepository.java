@@ -6,7 +6,7 @@ public interface ReservationTimeRepository {
 
     Long add(final ReservationTime reservationTime);
 
-    void deleteById(final Long id);
+    int deleteById(final Long id);
 
     List<ReservationTime> findAll();
 

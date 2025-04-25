@@ -8,7 +8,7 @@ public interface ReservationRepository {
 
     Reservation findById(final Long id);
 
-    void deleteById(final Long id);
+    int deleteById(final Long id);
 
     List<Reservation> findAll();
 }
