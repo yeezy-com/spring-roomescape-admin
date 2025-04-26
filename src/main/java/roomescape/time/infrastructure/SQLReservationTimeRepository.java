@@ -1,8 +1,5 @@
 package roomescape.time.infrastructure;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +7,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import roomescape.time.domain.ReservationTime;
 import roomescape.time.domain.ReservationTimeRepository;
