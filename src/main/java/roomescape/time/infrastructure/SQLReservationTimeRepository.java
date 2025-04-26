@@ -12,7 +12,7 @@ import roomescape.time.domain.ReservationTime;
 import roomescape.time.domain.ReservationTimeRepository;
 
 @Repository
-public class H2ReservationTimeRepository implements ReservationTimeRepository {
+public class SQLReservationTimeRepository implements ReservationTimeRepository {
 
     public static final RowMapper<ReservationTime> ROW_MAPPER = (resultSet, rowNum) -> new ReservationTime(
             resultSet.getLong("id"),
@@ -21,7 +21,7 @@ public class H2ReservationTimeRepository implements ReservationTimeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public H2ReservationTimeRepository(JdbcTemplate jdbcTemplate) {
+    public SQLReservationTimeRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
