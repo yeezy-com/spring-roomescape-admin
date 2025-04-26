@@ -15,9 +15,19 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ReservationTimeIntegrationTest {
 
-    @DisplayName("예약 시간을 조회하고 추가 및 삭제할 수 있다.")
+    @DisplayName("예약 시간을 조회할 수 있다.")
     @Test
-    void reservation_time_can_manage() {
+    void reservation_time_view() {
+        RestAssured.given().log().all()
+                .when().get("/times")
+                .then().log().all()
+                .statusCode(200)
+                .body("size()", is(0));
+    }
+
+    @DisplayName("예약 시간을 추가 및 삭제 할 수 있다.")
+    @Test
+    void reservation_time_post_to_add() {
         Map<String, String> params = new HashMap<>();
         params.put("startAt", "10:00");
 
@@ -27,12 +37,6 @@ public class ReservationTimeIntegrationTest {
                 .when().post("/times")
                 .then().log().all()
                 .statusCode(200);
-
-        RestAssured.given().log().all()
-                .when().get("/times")
-                .then().log().all()
-                .statusCode(200)
-                .body("size()", is(1));
 
         RestAssured.given().log().all()
                 .when().delete("/times/1")

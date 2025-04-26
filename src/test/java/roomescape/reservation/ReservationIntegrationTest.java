@@ -24,7 +24,7 @@ public class ReservationIntegrationTest {
                 .statusCode(400);
     }
 
-    @DisplayName("예약을 추가하고 목록을 읽을 수 있다.")
+    @DisplayName("예약을 추가할 수 있다.")
     @Test
     void reservation_add_and_get() {
         Map<String, Object> reservation = new HashMap<>();
