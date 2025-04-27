@@ -16,7 +16,7 @@ import roomescape.time.domain.ReservationTime;
 
 @Repository
 @Primary
-public class SQLReservationRepository implements ReservationRepository {
+public class JdbcReservationRepository implements ReservationRepository {
 
 
     private static final RowMapper<Reservation> ROW_MAPPER = (resultSet, rowNum) -> new Reservation(
@@ -32,7 +32,7 @@ public class SQLReservationRepository implements ReservationRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    public SQLReservationRepository(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
+    public JdbcReservationRepository(final JdbcTemplate jdbcTemplate, final DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("reservation")
