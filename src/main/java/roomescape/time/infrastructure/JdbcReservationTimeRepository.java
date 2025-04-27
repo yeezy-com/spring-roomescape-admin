@@ -30,7 +30,7 @@ public class JdbcReservationTimeRepository implements ReservationTimeRepository 
     }
 
     @Override
-    public Long add(final ReservationTime reservationTime) {
+    public Long save(final ReservationTime reservationTime) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("start_at", reservationTime.getStartAt());
 

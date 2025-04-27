@@ -22,15 +22,15 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<List<ReservationResponse>> readReservations() {
-        List<ReservationResponse> response = reservationService.findAll();
+    public ResponseEntity<List<ReservationResponse>> getReservations() {
+        List<ReservationResponse> response = reservationService.getReservations();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/reservations")
-    public ResponseEntity<ReservationResponse> addReservation(@RequestBody final ReservationRequest request) {
+    public ResponseEntity<ReservationResponse> createReservation(@RequestBody final ReservationRequest request) {
         try {
-            ReservationResponse response = reservationService.add(request);
+            ReservationResponse response = reservationService.createReservation(request);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -38,9 +38,9 @@ public class ReservationController {
     }
 
     @DeleteMapping("/reservations/{id}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> deleteReservationById(@PathVariable("id") final Long id) {
         try {
-            reservationService.delete(id);
+            reservationService.deleteReservationById(id);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

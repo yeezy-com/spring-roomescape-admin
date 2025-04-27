@@ -21,22 +21,22 @@ public class ReservationService {
         this.reservationTimeRepository = reservationTimeRepository;
     }
 
-    public ReservationResponse add(final ReservationRequest request) {
+    public ReservationResponse createReservation(final ReservationRequest request) {
         ReservationTime time = reservationTimeRepository.findById(request.timeId());
 
-        Long id = reservationRepository.add(new Reservation(null, request.name(), request.date(), time));
+        Long id = reservationRepository.save(new Reservation(null, request.name(), request.date(), time));
         Reservation findReservation = reservationRepository.findById(id);
 
         return ReservationResponse.from(findReservation);
     }
 
-    public List<ReservationResponse> findAll() {
+    public List<ReservationResponse> getReservations() {
         return reservationRepository.findAll().stream()
                 .map(ReservationResponse::from)
                 .toList();
     }
 
-    public void delete(final Long id) {
+    public void deleteReservationById(final Long id) {
         int count = reservationRepository.deleteById(id);
         validateExistIdToDelete(count);
     }

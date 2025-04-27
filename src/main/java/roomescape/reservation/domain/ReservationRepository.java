@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ReservationRepository {
 
-    Long add(final Reservation reservation);
-
-    Reservation findById(final Long id);
+    Long save(final Reservation reservation);
 
     int deleteById(final Long id);
+
+    Reservation findById(final Long id);
 
     List<Reservation> findAll();
 }

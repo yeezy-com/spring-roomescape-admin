@@ -16,14 +16,14 @@ public class ReservationTimeService {
         this.reservationTimeRepository = reservationTimeRepository;
     }
 
-    public ReservationTimeResponse add(final ReservationTimeRequest request) {
-        Long id = reservationTimeRepository.add(new ReservationTime(null, request.startAt()));
+    public ReservationTimeResponse createReservationTime(final ReservationTimeRequest request) {
+        Long id = reservationTimeRepository.save(new ReservationTime(null, request.startAt()));
         ReservationTime findReservationTime = reservationTimeRepository.findById(id);
 
         return ReservationTimeResponse.from(findReservationTime);
     }
 
-    public void delete(final Long id) {
+    public void deleteReservationTimeById(final Long id) {
         int count = reservationTimeRepository.deleteById(id);
         validateIsExistsReservationTimeId(count);
     }
@@ -34,7 +34,7 @@ public class ReservationTimeService {
         }
     }
 
-    public List<ReservationTimeResponse> findAll() {
+    public List<ReservationTimeResponse> getReservationTimes() {
         return reservationTimeRepository.findAll().stream()
                 .map(ReservationTimeResponse::from)
                 .toList();
